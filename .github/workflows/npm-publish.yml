@@ -25,4 +25,7 @@ jobs:
 
       - run: npm run build
 
-      - run: npm publish --access public
+      # --provenance emits the signed provenance statement n8n Cloud
+      # verification requires (a node published without it fails
+      # @n8n/scan-community-package). id-token: write above enables it.
+      - run: npm publish --access public --provenance

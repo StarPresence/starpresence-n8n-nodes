@@ -1,6 +1,6 @@
 {
   "name": "n8n-nodes-starreview",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "n8n community node for StarReview: list unanswered reviews, draft replies, and submit them to the owner's approval queue. The node never publishes a reply itself.",
   "keywords": [
     "n8n-community-node-package",
