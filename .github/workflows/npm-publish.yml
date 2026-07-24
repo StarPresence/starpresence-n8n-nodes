@@ -24,7 +24,11 @@ jobs:
       # trusted publishing + --provenance.
       - run: npm install -g npm@11
 
-      - run: npm ci
+      # --ignore-scripts skips the native build of isolated-vm (a Node-22+
+      # transitive dep of n8n-workflow). We only compile TypeScript against
+      # n8n-workflow's type declarations; the compiled addon is never run, so
+      # skipping it avoids a node-gyp failure on the node-20 runner.
+      - run: npm ci --ignore-scripts
 
       - run: npm run build
 
