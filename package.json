@@ -1,0 +1,55 @@
+{
+  "name": "n8n-nodes-starreview",
+  "version": "0.1.0",
+  "description": "n8n community node for StarReview: list unanswered reviews, draft replies, and submit them to the owner's approval queue. The node never publishes a reply itself.",
+  "keywords": [
+    "n8n-community-node-package",
+    "n8n",
+    "starreview",
+    "reviews",
+    "review-management",
+    "review-replies",
+    "google-reviews",
+    "reputation"
+  ],
+  "license": "MIT",
+  "homepage": "https://www.starreview.ch",
+  "author": {
+    "name": "StarReview",
+    "url": "https://www.starreview.ch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Fabsbags/n8n-nodes-starreview.git"
+  },
+  "engines": {
+    "node": ">=20.15"
+  },
+  "files": [
+    "dist"
+  ],
+  "n8n": {
+    "n8nNodesApiVersion": 1,
+    "credentials": [
+      "dist/credentials/StarReviewApi.credentials.js"
+    ],
+    "nodes": [
+      "dist/nodes/StarReview/StarReview.node.js",
+      "dist/nodes/StarReviewTrigger/StarReviewTrigger.node.js"
+    ]
+  },
+  "scripts": {
+    "build": "tsc && node scripts/copy-assets.js",
+    "dev": "tsc --watch",
+    "lint": "tsc --noEmit",
+    "prepublishOnly": "npm run build"
+  },
+  "devDependencies": {
+    "@types/node": "^20.19.43",
+    "n8n-workflow": "^2.16.0",
+    "typescript": "^5.9.3"
+  },
+  "peerDependencies": {
+    "n8n-workflow": "*"
+  }
+}
