@@ -1,16 +1,16 @@
-# n8n-nodes-starreview
+# n8n-nodes-starpresence
 
-This is an n8n community node for [StarReview](https://www.starreview.ch), the review reply service for local businesses. It lets your workflows list unanswered reviews, pull review context and stats, draft replies, and submit replies to the owner's approval queue.
+This is an n8n community node for [StarPresence](https://starpresence.ai), the review reply service for local businesses. It lets your workflows list unanswered reviews, pull review context and stats, draft replies, and submit replies to the owner's approval queue.
 
 [n8n](https://n8n.io/) is a fair-code licensed workflow automation platform.
 
 ## The safety model
 
-This node is a thin client over StarReview's hosted agent API. It can draft and submit, nothing more:
+This node is a thin client over StarPresence's hosted agent API. It can draft and submit, nothing more:
 
 - Your workflow (or an AI agent inside it) drafts a reply or picks a drafted variant.
-- Every submitted reply lands in the owner's approval queue inside StarReview.
-- The owner approves, and StarReview publishes the reply from its own infrastructure.
+- Every submitted reply lands in the owner's approval queue inside StarPresence.
+- The owner approves, and StarPresence publishes the reply from its own infrastructure.
 - The node can never publish a reply itself, on any platform.
 - Platforms without a reply API (for example TripAdvisor) come back as `awaitingManualPost` with a deep link; the owner posts through the platform's own portal.
 
@@ -19,26 +19,26 @@ This node is a thin client over StarReview's hosted agent API. It can draft and 
 Self-hosted n8n:
 
 1. Open Settings > Community Nodes.
-2. Select Install and enter `n8n-nodes-starreview`.
+2. Select Install and enter `n8n-nodes-starpresence`.
 
 Alternatively, install it into your custom nodes folder:
 
 ```
 cd ~/.n8n/custom
-npm i n8n-nodes-starreview
+npm i n8n-nodes-starpresence
 ```
 
 ## Credentials
 
-1. Log in to StarReview and open Settings, section Agent-Zugang.
+1. Log in to StarPresence and open Settings, section Agent-Zugang.
 2. Create an agent API key (it starts with `sragt_`).
-3. In n8n, create a StarReview API credential and paste the key. Leave the base URL at `https://mcp.starreview.ch/`.
+3. In n8n, create a StarPresence API credential and paste the key. Leave the base URL at `https://mcp.starpresence.ai/`.
 
 The key is scoped to your business. If it is ever exposed, revoke it in the same settings section and create a new one.
 
 ## Nodes
 
-### StarReview
+### StarPresence
 
 | Resource | Operation | What it does |
 | --- | --- | --- |
@@ -52,25 +52,25 @@ The key is scoped to your business. If it is ever exposed, revoke it in the same
 
 Provider values (`google`, `tripadvisor`, ...) are open-ended. New platforms appear as they are connected, so never hardcode the list in your workflows.
 
-### StarReview Trigger
+### StarPresence Trigger
 
 Polling trigger for the event "New Unanswered Review". It checks for unanswered reviews on the schedule you set, remembers which reviews it has already seen, and emits only new ones (one item per review). A manual test run emits the latest unanswered review without marking it as seen.
 
 ## Example workflow
 
-1. **StarReview Trigger**: New Unanswered Review, polling every 15 minutes.
-2. **StarReview**: Reply > Draft, with Review ID set to `{{ $json.reviewId }}`.
-3. **Slack**: notify the owner with the draft text and a note that the reply is waiting for approval in StarReview.
+1. **StarPresence Trigger**: New Unanswered Review, polling every 15 minutes.
+2. **StarPresence**: Reply > Draft, with Review ID set to `{{ $json.reviewId }}`.
+3. **Slack**: notify the owner with the draft text and a note that the reply is waiting for approval in StarPresence.
 
-The owner then approves in StarReview, which handles publishing.
+The owner then approves in StarPresence, which handles publishing.
 
 ## Compatibility
 
-Requires n8n 1.x and Node.js 20 or newer. Tested against the hosted StarReview agent endpoint.
+Requires n8n 1.x and Node.js 20 or newer. Tested against the hosted StarPresence agent endpoint.
 
 ## Resources
 
-- [StarReview](https://www.starreview.ch)
+- [StarPresence](https://starpresence.ai)
 - [n8n community nodes documentation](https://docs.n8n.io/integrations/community-nodes/)
 
 ## License

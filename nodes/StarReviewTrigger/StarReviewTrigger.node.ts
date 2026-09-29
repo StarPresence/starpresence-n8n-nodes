@@ -24,16 +24,16 @@ function byNewestFirst(a: IDataObject, b: IDataObject): number {
 
 export class StarReviewTrigger implements INodeType {
 	description: INodeTypeDescription = {
-		displayName: 'StarReview Trigger',
+		displayName: 'StarPresence Trigger',
 		name: 'starReviewTrigger',
 		icon: 'file:starreview.svg',
 		group: ['trigger'],
 		version: 1,
 		subtitle: 'New Unanswered Review',
 		description:
-			'Starts the workflow when a new unanswered review appears in StarReview. Downstream replies always go to the owner approval queue; a workflow can never publish a reply.',
+			'Starts the workflow when a new unanswered review appears in StarPresence. Downstream replies always go to the owner approval queue; a workflow can never publish a reply.',
 		defaults: {
-			name: 'StarReview Trigger',
+			name: 'StarPresence Trigger',
 		},
 		polling: true,
 		inputs: [],
@@ -106,7 +106,7 @@ export class StarReviewTrigger implements INodeType {
 			// object instead of a review list.
 			throw new NodeOperationError(
 				this.getNode(),
-				'StarReview returned a business picker instead of a review list. Set the Business ID option to one of the businesses the key can see.',
+				'StarPresence returned a business picker instead of a review list. Set the Business ID option to one of the businesses the key can see.',
 			);
 		}
 

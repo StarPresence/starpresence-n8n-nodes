@@ -8,9 +8,9 @@ import type {
 export class StarReviewApi implements ICredentialType {
 	name = 'starReviewApi';
 
-	displayName = 'StarReview API';
+	displayName = 'StarPresence API';
 
-	documentationUrl = 'https://www.starreview.ch';
+	documentationUrl = 'https://starpresence.ai';
 
 	properties: INodeProperties[] = [
 		{
@@ -21,14 +21,14 @@ export class StarReviewApi implements ICredentialType {
 			default: '',
 			required: true,
 			description:
-				'Your StarReview agent API key. Create it in StarReview under Settings, section Agent-Zugang. Keys start with sragt_.',
+				'Your StarPresence agent API key. Create it in StarPresence under Settings, section Agent-Zugang. Keys start with sragt_.',
 		},
 		{
 			displayName: 'Base URL',
 			name: 'baseUrl',
 			type: 'string',
-			default: 'https://mcp.starreview.ch/',
-			description: 'The StarReview MCP endpoint. Leave the default unless StarReview tells you otherwise.',
+			default: 'https://mcp.starpresence.ai/',
+			description: 'The StarPresence MCP endpoint. Leave the default unless StarPresence tells you otherwise.',
 		},
 	];
 

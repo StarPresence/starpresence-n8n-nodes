@@ -10,7 +10,7 @@ import { NodeApiError, NodeOperationError } from 'n8n-workflow';
 
 type StarReviewContext = IExecuteFunctions | IPollFunctions | ILoadOptionsFunctions | IHookFunctions;
 
-const DEFAULT_BASE_URL = 'https://mcp.starreview.ch/';
+const DEFAULT_BASE_URL = 'https://mcp.starpresence.ai/';
 
 interface JsonRpcResponse {
 	jsonrpc?: string;
@@ -23,18 +23,18 @@ interface JsonRpcResponse {
 }
 
 /**
- * Human hints for the error codes the StarReview MCP endpoint returns inside
+ * Human hints for the error codes the StarPresence MCP endpoint returns inside
  * an isError result ({ code: string }). Codes are open-ended; unknown codes
  * are surfaced as-is.
  */
 const ERROR_HINTS: Record<string, string> = {
 	already_processed: 'This review already has a reply approved, scheduled, or posted.',
 	business_not_connected:
-		'The business has no active connected location. Reconnect it in StarReview first.',
+		'The business has no active connected location. Reconnect it in StarPresence first.',
 	forbidden: 'The review or resource does not belong to the business this API key is scoped to.',
 	free_quota_exhausted: 'The free reply quota for this business is used up.',
 	not_editable: 'This reply can no longer be edited.',
-	posting_paywall: 'Posting is held until the business has an active StarReview subscription.',
+	posting_paywall: 'Posting is held until the business has an active StarPresence subscription.',
 	review_not_pending: 'The review is not awaiting a reply (it may already be answered).',
 };
 
@@ -72,7 +72,7 @@ function extractStatusCode(error: unknown): number | undefined {
 }
 
 /**
- * Calls one StarReview MCP tool via a single JSON-RPC 2.0 POST and returns the
+ * Calls one StarPresence MCP tool via a single JSON-RPC 2.0 POST and returns the
  * decoded inner payload (the double-parsed content[0].text envelope).
  */
 export async function callStarReviewTool(
@@ -107,9 +107,9 @@ export async function callStarReviewTool(
 	} catch (error) {
 		if (extractStatusCode(error) === 401) {
 			throw new NodeApiError(this.getNode(), error as JsonObject, {
-				message: 'StarReview rejected the API key (401)',
+				message: 'StarPresence rejected the API key (401)',
 				description:
-					'The key is invalid or was revoked. Create a new key in StarReview under Settings, section Agent-Zugang, and update this credential.',
+					'The key is invalid or was revoked. Create a new key in StarPresence under Settings, section Agent-Zugang, and update this credential.',
 			});
 		}
 		throw new NodeApiError(this.getNode(), error as JsonObject);
@@ -121,13 +121,13 @@ export async function callStarReviewTool(
 	} catch {
 		throw new NodeOperationError(
 			this.getNode(),
-			'StarReview returned a response that could not be parsed as JSON-RPC',
+			'StarPresence returned a response that could not be parsed as JSON-RPC',
 		);
 	}
 
 	if (rpc.error) {
 		throw new NodeApiError(this.getNode(), rpc.error as JsonObject, {
-			message: `StarReview MCP error: ${rpc.error.message ?? rpc.error.code ?? 'unknown error'}`,
+			message: `StarPresence MCP error: ${rpc.error.message ?? rpc.error.code ?? 'unknown error'}`,
 		});
 	}
 
@@ -152,7 +152,7 @@ export async function callStarReviewTool(
 		const hint = ERROR_HINTS[code];
 		throw new NodeOperationError(
 			this.getNode(),
-			`StarReview error: ${code}`,
+			`StarPresence error: ${code}`,
 			hint === undefined ? undefined : { description: hint },
 		);
 	}

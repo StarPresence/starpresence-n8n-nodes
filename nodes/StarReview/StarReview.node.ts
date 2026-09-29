@@ -48,16 +48,16 @@ const providerOption = {
 
 export class StarReview implements INodeType {
 	description: INodeTypeDescription = {
-		displayName: 'StarReview',
+		displayName: 'StarPresence',
 		name: 'starReview',
 		icon: 'file:starreview.svg',
 		group: ['transform'],
 		version: 1,
 		subtitle: '={{$parameter["operation"] === "submitReplyForApproval" || $parameter["operation"] === "submitOwnReply" ? $parameter["operation"] + " (to owner approval queue)" : $parameter["operation"]}}',
 		description:
-			'Manage review replies via StarReview. Replies always go to the owner approval queue in StarReview; this node can never publish a reply.',
+			'Manage review replies via StarPresence. Replies always go to the owner approval queue in StarPresence; this node can never publish a reply.',
 		defaults: {
-			name: 'StarReview',
+			name: 'StarPresence',
 		},
 		usableAsTool: true,
 		inputs: [NodeConnectionTypes.Main],
@@ -71,7 +71,7 @@ export class StarReview implements INodeType {
 		properties: [
 			{
 				displayName:
-					'Replies submitted by this node land in the owner approval queue in StarReview. The owner approves and StarReview publishes; the node itself can never post a reply.',
+					'Replies submitted by this node land in the owner approval queue in StarPresence. The owner approves and StarPresence publishes; the node itself can never post a reply.',
 				name: 'approvalNotice',
 				type: 'notice',
 				default: '',
@@ -171,7 +171,7 @@ export class StarReview implements INodeType {
 						name: 'Submit Own Reply',
 						value: 'submitOwnReply',
 						description:
-							'Submit your own reply text into the owner approval queue, with no StarReview draft',
+							'Submit your own reply text into the owner approval queue, with no StarPresence draft',
 						action: 'Submit your own reply for approval',
 					},
 				],
@@ -188,7 +188,7 @@ export class StarReview implements INodeType {
 				required: true,
 				default: '',
 				description:
-					'The StarReview review ID, e.g. from List Unanswered or the StarReview Trigger',
+					'The StarPresence review ID, e.g. from List Unanswered or the StarPresence Trigger',
 				displayOptions: {
 					show: {
 						operation: ['getReviewContext', 'draftReply', 'submitReplyForApproval', 'submitOwnReply'],
@@ -288,7 +288,7 @@ export class StarReview implements INodeType {
 						type: 'dateTime',
 						default: '',
 						description:
-							'StarReview will not post the reply before this time. StarReview still performs the actual publish after owner approval.',
+							'StarPresence will not post the reply before this time. StarPresence still performs the actual publish after owner approval.',
 					},
 				],
 			},
@@ -306,7 +306,7 @@ export class StarReview implements INodeType {
 						type: 'dateTime',
 						default: '',
 						description:
-							'StarReview will not post the reply before this time. StarReview still performs the actual publish after owner approval.',
+							'StarPresence will not post the reply before this time. StarPresence still performs the actual publish after owner approval.',
 					},
 				],
 			},
