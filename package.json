@@ -1,11 +1,11 @@
 {
-  "name": "n8n-nodes-starreview",
-  "version": "0.1.1",
-  "description": "n8n community node for StarReview: list unanswered reviews, draft replies, and submit them to the owner's approval queue. The node never publishes a reply itself.",
+  "name": "n8n-nodes-starpresence",
+  "version": "0.2.0",
+  "description": "n8n community node for StarPresence: list unanswered reviews, draft replies, and submit them to the owner's approval queue. The node never publishes a reply itself.",
   "keywords": [
     "n8n-community-node-package",
     "n8n",
-    "starreview",
+    "starpresence",
     "reviews",
     "review-management",
     "review-replies",
@@ -13,14 +13,14 @@
     "reputation"
   ],
   "license": "MIT",
-  "homepage": "https://www.starreview.ch",
+  "homepage": "https://starpresence.ai",
   "author": {
-    "name": "StarReview",
-    "url": "https://www.starreview.ch"
+    "name": "StarPresence",
+    "url": "https://starpresence.ai"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/Fabsbags/n8n-nodes-starreview.git"
+    "url": "https://github.com/StarPresence/starpresence-n8n-nodes.git"
   },
   "engines": {
     "node": ">=20.15"
