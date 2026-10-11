@@ -1,28 +1,53 @@
 name: Publish to npm
 
+# This workflow holds id-token: write, so whoever can dispatch it from a branch
+# can publish that branch's code to npm with a signed provenance statement.
+# What stops that is not in this file, because a branch can edit this file:
+#   1. environment: npm-publish is a GitHub environment whose deployment branches
+#      are limited to main (Settings, Environments). A dispatch from any other
+#      branch is refused by GitHub before the job starts, so it never receives an
+#      OIDC token. Create the environment BEFORE the first run: GitHub creates a
+#      missing one with no protection at all.
+#   2. npm's trusted-publisher entry for n8n-nodes-starpresence names the same
+#      environment (and this workflow file), so npm refuses a token minted by a
+#      job without it.
+# What this file does by itself: the actions and npm are pinned, so a moved tag
+# or a new npm release cannot change what runs next to the publish token, and
+# the `if:` below stops a dispatch from the wrong branch early with a skipped
+# run instead of a refused one. That `if:` is a convenience, never a lock.
+# (be#3602, finding 8.)
+
 on:
   workflow_dispatch:
 
 permissions:
-  id-token: write
   contents: read
 
 jobs:
   publish:
     runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    environment: npm-publish
+    permissions:
+      contents: read
+      id-token: write
     steps:
-      - uses: actions/checkout@v4
+      # Actions are pinned to the commit tag v4.4.0 points at (checked 2026-10-10).
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          persist-credentials: false
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: 20
           registry-url: https://registry.npmjs.org
 
       # OIDC trusted publishing needs npm 11.5+ (node 20 ships npm 10). Pin to
-      # npm@11 explicitly: npm@latest is now v12, which requires node 22+ and
-      # fails on this node-20 runner. npm 11 runs on node ^20.17 and supports
-      # trusted publishing + --provenance.
-      - run: npm install -g npm@11
+      # an exact npm 11 release: npm@latest is now v12, which requires node 22+
+      # and fails on this node-20 runner. npm 11 runs on node ^20.17 and supports
+      # trusted publishing + --provenance. 11.20.0 (2026-09-22) is the newest
+      # release that was at least two weeks old when this was pinned.
+      - run: npm install -g npm@11.20.0
 
       # --ignore-scripts skips the native build of isolated-vm (a Node-22+
       # transitive dep of n8n-workflow). We only compile TypeScript against
